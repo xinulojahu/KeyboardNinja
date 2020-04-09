@@ -63,12 +63,18 @@ char** texts_read() {
     return text_out;
 }
 
+void texts_print(char** text) {
+    for (int i = 0; (text[i][0] != '&') && (text[i][1] != '&'); i++) {
+        for (char* j = text[i]; *j != '\0'; j++) {
+            printf("%c", *j);
+        }
+    }
+}
+
 int main() {
     //Проверка работоспособности
-    char** texts;
-    texts = texts_read();
-    for (int i = 0; i < 2; i++) {
-        puts(texts[i]);
-    }
+    char** text;
+    text = texts_read();
+    texts_print(text);
     return 0;
 }
