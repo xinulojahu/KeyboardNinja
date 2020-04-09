@@ -1,8 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define TEXT_COUNT 10
 #define MAX_SYMBOL_COUNT 3072
+
+int texts_get_count() {
+    FILE* texts_file;
+    char* str;
+    int texts_count = 0;
+    texts_file = fopen("RU/texts.txt", "r");
+    if (texts_file == NULL) {
+        return -1;
+    }
+    str = malloc(MAX_SYMBOL_COUNT * sizeof(char));
+    if (str == NULL) {
+        return -1;
+    }
+    while (fgets(str, MAX_SYMBOL_COUNT, texts_file) != NULL) {
+        if ((str[0] == '&') && (str[1] == '&')) {
+            texts_count++;
+        }
+    }
+    return texts_count;
+}
 
 char** texts_read() {
     //Инициализация переменных
@@ -23,8 +42,8 @@ char** texts_read() {
     if (str == NULL) {  //Выделилась ли память
         return NULL;
     }
-    srand(time(NULL));                  //Случайный сид
-    text_number = rand() % TEXT_COUNT;  //Открытия случайного текста
+    srand(time(NULL));                         //Случайный сид
+    text_number = rand() % texts_get_count();  //Открытия случайного текста
     newline_count = 0;  //Обнуление счетчика переходов на новую строку
 
     //Поиск нужного текста
