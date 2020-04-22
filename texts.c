@@ -23,7 +23,7 @@ int texts_get_count() {
     return texts_count;
 }
 
-char** texts_read() {
+char** texts_get() {
     //Инициализация переменных
     FILE* texts_file;  //Для работы с файлом
     char* str;         //Для считывания строк
@@ -93,7 +93,7 @@ void texts_print(char** text) {
 int main() {
     //Проверка работоспособности
     char** text;
-    text = texts_read();
+    text = texts_get();
     texts_print(text);
     return 0;
 }
