@@ -3,6 +3,13 @@
 #include <time.h>
 #define MAX_SYMBOL_COUNT 3072
 
+int texts_end(char* str) {
+    if ((str[0] == '&') && (str[1] == '&')) {
+        return 1;
+    }
+    return 0;
+}
+
 int texts_get_count() {
     FILE* texts_file;
     char* str;
@@ -16,7 +23,7 @@ int texts_get_count() {
         return -1;
     }
     while (fgets(str, MAX_SYMBOL_COUNT, texts_file) != NULL) {
-        if ((str[0] == '&') && (str[1] == '&')) {
+        if (texts_end(str)) {
             texts_count++;
         }
     }
@@ -49,7 +56,7 @@ char** texts_get() {
     //Поиск нужного текста
     while (text_number) {
         fgets(str, MAX_SYMBOL_COUNT, texts_file);
-        if ((str[0] == '&') && (str[1] == '&')) {
+        if (texts_end(str)) {
             text_number--;
         }
     }
@@ -59,7 +66,7 @@ char** texts_get() {
     do {
         newline_count++;
         fgets(str, MAX_SYMBOL_COUNT, texts_file);
-    } while ((str[0] != '&') || (str[1] != '&'));
+    } while (!texts_end(str));
     fsetpos(texts_file, &pos);
 
     //Выделения памяти. Каждому абзацу своя переменная.
@@ -83,7 +90,7 @@ char** texts_get() {
 }
 
 void texts_print(char** text) {
-    for (int i = 0; (text[i][0] != '&') && (text[i][1] != '&'); i++) {
+    for (int i = 0; !texts_end(text[i]); i++) {
         for (char* j = text[i]; *j != '\0'; j++) {
             printf("%c", *j);
         }
