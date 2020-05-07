@@ -1,7 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <termios.h>
 #include <time.h>
 #define MAX_SYMBOL_COUNT 3072
+
+static struct termios stored_settings;
+
+void set_keypress(void) {
+    struct termios new_settings;
+
+    tcgetattr(0, &stored_settings);
+
+    new_settings = stored_settings;
+
+    new_settings.c_lflag &= (~ICANON);
+    new_settings.c_lflag &= (~ECHO);
+    new_settings.c_cc[VTIME] = 0;
+    new_settings.c_cc[VMIN] = 1;
+
+    tcsetattr(0, TCSANOW, &new_settings);
+    return;
+}
+
+void reset_keypress(void) {
+    tcsetattr(0, TCSANOW, &stored_settings);
+    return;
+}
 
 int texts_end(char* str) {
     if ((str[0] == '&') && (str[1] == '&')) {
@@ -124,10 +148,17 @@ void texts_read(char** text) {
 }
 
 int main() {
-    //Проверка работоспособности
-    char** text;
+    //Проверка рабоint main()
+    char ch;
+    set_keypress();
+    do {
+        ch = getchar();
+        printf("%c\n", ch);
+    } while (ch != 'q');
+    reset_keypress();
+    /*char** text;
     text = texts_get();
     texts_print(text);
-    texts_read(text);
+    texts_read(text);*/
     return 0;
 }
