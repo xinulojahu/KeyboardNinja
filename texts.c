@@ -49,9 +49,8 @@ char** texts_get() {
     if (str == NULL) {  //Выделилась ли память
         return NULL;
     }
-    srand(time(NULL));  //Случайный сид
-    text_number =
-        3;  // rand() % texts_get_count();  //Открытия случайного текста
+    srand(time(NULL));                         //Случайный сид
+    text_number = rand() % texts_get_count();  //Открытия случайного текста
     newline_count = 0;  //Обнуление счетчика переходов на новую строку
 
     //Поиск нужного текста
@@ -119,7 +118,7 @@ void texts_read(char** text) {
         sym_per_min = sym_count * 60 / seconds;
         seconds %= 60;
     }
-    double errors_prcnt = errors * 100 / sym_count;
+    double errors_prcnt = 100 - errors * 100 / sym_count;
     printf("%5d|%02d:%02d|%5d|%5d|%4.1f%%\n", 1, minuts, seconds, sym_per_min,
            errors, errors_prcnt);
 }
