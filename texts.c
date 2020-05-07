@@ -73,8 +73,9 @@ char** texts_get() {
     if (str == NULL) {  //Выделилась ли память
         return NULL;
     }
-    srand(time(NULL));                         //Случайный сид
-    text_number = rand() % texts_get_count();  //Открытия случайного текста
+    srand(time(NULL));  //Случайный сид
+    text_number =
+        0;  // rand() % texts_get_count();  //Открытия случайного текста
     newline_count = 0;  //Обнуление счетчика переходов на новую строку
 
     //Поиск нужного текста
@@ -126,15 +127,21 @@ void texts_read(char** text) {
     int errors = 0;
     int sym_count = 0;
     int seconds = time(NULL);
+    set_keypress();
     for (int i = 0; !texts_end(text[i]); i++) {
         for (char* j = text[i]; *j != '\0'; j++) {
             sym_count++;
             c = getchar();
             if (c != *j) {
                 errors++;
+                do {
+                    c = getchar();
+                } while (c != *j);
             }
+            printf("%c", c);
         }
     }
+    reset_keypress();
     seconds = time(NULL) - seconds;
     int minuts = seconds / 60;
     int sym_per_min = 0;
@@ -149,16 +156,9 @@ void texts_read(char** text) {
 
 int main() {
     //Проверка рабоint main()
-    char ch;
-    set_keypress();
-    do {
-        ch = getchar();
-        printf("%c\n", ch);
-    } while (ch != 'q');
-    reset_keypress();
-    /*char** text;
+    char** text;
     text = texts_get();
     texts_print(text);
-    texts_read(text);*/
+    texts_read(text);
     return 0;
 }
