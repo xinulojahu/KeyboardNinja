@@ -5,7 +5,8 @@
 #include <time.h>
 #include <wchar.h>
 
-#define MAX_SYMBOL_COUNT 3072
+#define MAX_SYMBOL_COUNT 1024
+#define PRACTICE_COUNT 30
 
 static struct termios stored_settings;
 
@@ -57,7 +58,7 @@ int texts_get_count() {
     return texts_count;
 }
 
-wchar_t** texts_get() {
+wchar_t** texts_get(unsigned int text_src) {
     //Инициализация переменных
     FILE* texts_file;  //Для работы с файлом
     wchar_t* str;      //Для считывания строк
@@ -65,28 +66,40 @@ wchar_t** texts_get() {
     fpos_t pos;  //Для того, чтобы запомнить позицию в файле
     int newline_count;  //Количество переходов на новую строку
     wchar_t** text_out;  //Хранит текст под номером text_number
-
-    //Объявление переменных
-    texts_file = fopen("RU/texts.txt", "r");  //Открытие файла
-    if (texts_file == NULL) {  //Проверка, открылся ли файл
-        return NULL;
-    }
     str = malloc(MAX_SYMBOL_COUNT *
                  sizeof(wchar_t));  //выделение памяти для хранения строк
     if (str == NULL) {  //Выделилась ли память
         return NULL;
     }
-    srand(time(NULL));                         //Случайный сид
-    text_number = rand() % texts_get_count();  //Открытия случайного текста
-    newline_count = 0;  //Обнуление счетчика переходов на новую строку
 
-    //Поиск нужного текста
-    while (text_number) {
-        fgetws(str, MAX_SYMBOL_COUNT, texts_file);
-        if (texts_end(str)) {
-            text_number--;
+    if (text_src == 0) {
+        texts_file = fopen("RU/texts.txt", "r");  //Открытие файла
+        if (texts_file == NULL) {  //Проверка, открылся ли файл
+            return NULL;
         }
+        srand(time(NULL));                         //Случайный сид
+        text_number = rand() % texts_get_count();  //Открытия случайного текста
+
+        //Поиск нужного текста
+        while (text_number) {
+            fgetws(str, MAX_SYMBOL_COUNT, texts_file);
+            if (texts_end(str)) {
+                text_number--;
+            }
+        }
+    } else if (text_src < PRACTICE_COUNT) {
+        char* temp;
+        temp = malloc(28 * sizeof(char));
+        sprintf(temp, "%s%d%s", "RU/practice/practice_", text_src, ".txt");
+        texts_file = fopen(temp, "r");
+        if (texts_file == NULL) {  //Проверка, открылся ли файл
+            return NULL;
+        }
+        free(temp);
+    } else {
+        return NULL;
     }
+    newline_count = 0;  //Обнуление счетчика переходов на новую строку
 
     //Подсчет количества переходов на новую строку
     fgetpos(texts_file, &pos);
@@ -161,7 +174,7 @@ int main() {
     //Проверка рабоint main()
     setlocale(LC_ALL, "");
     wchar_t** text;
-    text = texts_get();
+    text = texts_get(1);
     texts_print(text);
     texts_read(text);
     return 0;
