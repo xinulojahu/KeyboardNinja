@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-int practice();  //основная фукнция
-int char_to_int(char*, int, int);  // функция перевода числв char в число int
+// int practice();  //основная фукнция
+// int char_to_int(char*, int, int);  // функция перевода числв char в число int
 
 int char_to_int(char* str, int i, int j) {
     int a;
