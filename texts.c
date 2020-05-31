@@ -170,12 +170,3 @@ void texts_read(wchar_t** text) {
            errors, errors_prcnt);
 }
 
-int main() {
-    //Проверка рабоint main()
-    setlocale(LC_ALL, "");
-    wchar_t** text;
-    text = texts_get(1);
-    texts_print(text);
-    texts_read(text);
-    return 0;
-}

@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int stats()
-{
+int stats() {
     FILE* stats_file;
     char str;
     stats_file = fopen("results.txt", "r");
@@ -22,8 +21,3 @@ int stats()
     return 0;
 }
 
-int main()
-{
-    stats();
-    return 0;
-}

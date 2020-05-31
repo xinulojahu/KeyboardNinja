@@ -59,9 +59,3 @@ int practice() {
     return number_of_text;  // возвращаем номер текста
 }
 
-int main() {
-    int number_of_text;
-    number_of_text = practice();
-    printf("Text with the least number of attemps: %d\n", number_of_text);
-    return 0;
-}
