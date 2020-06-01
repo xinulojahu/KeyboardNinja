@@ -3,6 +3,6 @@
 
 int char_to_int(char* str, int i, int j);
 
-int ptactice();
+int practice();
 
 #endif
