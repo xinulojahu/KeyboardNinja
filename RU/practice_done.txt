@@ -22,6 +22,6 @@ Number of mist: 015 | Per cent of mist: 16.01 %  |
 Number of attem: 22 | Time spent: 01:30 | Number of char/min: 300 |
 Number of mist: 015 | Per cent of mist: 16.01 %  |
 
-Number of attem: 44 | Time spent: 01:30 | Number of char/min: 300 |
+Number of attem: 00 | Time spent: 01:30 | Number of char/min: 300 |
 Number of mist: 015 | Per cent of mist: 16.01 %  |
 
