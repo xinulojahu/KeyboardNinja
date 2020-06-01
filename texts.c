@@ -147,11 +147,11 @@ void texts_read(wchar_t** text) {
     for (int i = 0; !texts_end(text[i]); i++) {
         for (wchar_t* j = text[i]; *j != '\0'; j++) {
             sym_count++;
-            c = getwchar();
+            scanf("%C", &c);
             if (c != *j) {
                 errors++;
                 do {
-                    c = getwchar();
+                    scanf("%C", &c);
                 } while (c != *j);
             }
             printf("%lc", c);
