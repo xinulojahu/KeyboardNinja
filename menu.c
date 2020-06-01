@@ -4,6 +4,7 @@
 #include <wchar.h>
 
 #include <locale.h>
+#include "practice.h"
 #include "texts.h"
 
 void menu_display() {
@@ -54,8 +55,9 @@ void menu(void) {
                     texts_read(text);
                     break;
                 case '2':
-                    printf("b\n");
-                    // practice();
+                    text = texts_get(practice());
+                    texts_print(text);
+                    texts_read(text);
                     break;
                 case '3':
                     // practice_best();
