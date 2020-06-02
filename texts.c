@@ -8,6 +8,8 @@
 #define MAX_SYMBOL_COUNT 1024
 #define PRACTICE_COUNT 30
 
+extern char language[3];
+
 static struct termios stored_settings;
 
 void set_keypress(void) {
@@ -42,7 +44,10 @@ int texts_get_count() {
     FILE* texts_file;
     wchar_t* str;
     int texts_count = 0;
-    texts_file = fopen("RU/texts.txt", "r");
+    char* path = malloc(32 * sizeof(char));
+    sprintf(path, "%s/texts.txt", language);
+    texts_file = fopen(path, "r");
+    free(path);
     if (texts_file == NULL) {
         return -1;
     }
@@ -73,7 +78,10 @@ wchar_t** texts_get(unsigned int text_src) {
     }
 
     if (text_src == 0) {
-        texts_file = fopen("RU/texts.txt", "r");  //Открытие файла
+        char* path = malloc(32 * sizeof(char));
+        sprintf(path, "%s/texts.txt", language);
+        texts_file = fopen(path, "r");
+        free(path);
         if (texts_file == NULL) {  //Проверка, открылся ли файл
             return NULL;
         }
@@ -88,14 +96,13 @@ wchar_t** texts_get(unsigned int text_src) {
             }
         }
     } else if (text_src < PRACTICE_COUNT) {
-        char* temp;
-        temp = malloc(28 * sizeof(char));
-        sprintf(temp, "%s%d%s", "RU/practice/practice_", text_src, ".txt");
-        texts_file = fopen(temp, "r");
+        char* path = malloc(32 * sizeof(char));
+        sprintf(path, "%s/practice/practice_%d.txt", language, text_src);
+        texts_file = fopen(path, "r");
+        free(path);
         if (texts_file == NULL) {  //Проверка, открылся ли файл
             return NULL;
         }
-        free(temp);
     } else {
         return NULL;
     }
