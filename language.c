@@ -31,3 +31,25 @@ int get_language() {
     fclose(settings_file);
     return -1;
 }
+
+int change_language() {
+    FILE* settings_file;
+    settings_file = fopen("settings", "w");
+    if (settings_file == NULL) {
+        return -1;
+    }
+    if (strcmp(language, "RU") == 0) {
+        fputs("language=EN", settings_file);
+        strcpy(language, "EN");
+        fclose(settings_file);
+        return 0;
+    }
+    if (strcmp(language, "EN") == 0) {
+        fputs("language=RU", settings_file);
+        strcpy(language, "RU");
+        fclose(settings_file);
+        return 0;
+    }
+    fclose(settings_file);
+    return -1;
+}
