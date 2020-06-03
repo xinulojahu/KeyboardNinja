@@ -42,83 +42,117 @@ void menu_display()
 
 void menu(void)
 {
-    char str[100];
-    char str1[100];
-    char str2[100];
-    char str3[100];
-    char str4[100];
-    char str5[100];
-    char str6[100];
-    char str7[100];
-    char str8[100];
-    str1[100] = "test";
-    str2[100] = "practice";
-    str3[100] = "practice_best";
-    str4[100] = "language";
-    str5[100] = "stats";
-    str6[100] = "stats_export";
-    str7[100] = "stats_delete";
-    str8[100] = "quit";
-    char choice;
+    char str[100]; //Входной поток данных
+    char choice; //Переменная для свича
+    char sep[10] = " "; //Значение передаваемое в strtok
+    char *istr; //Тот же же strtok
+    char *istr1; //Все еще strtok
+    char istr2[100]; //Вы угадали, это все что я умею :/
+    int arg = 0; //Интовый аргумент посылаемый в функцию
+    int argtest = 0; //Переменная для аргумента
     do {
         //fgets(str, 100, stdin);
         gets(str);
-        if (strcmp(str, str1)) {
-            choice = 1;
+        strncpy(istr2, str, 20);
+        istr1 = strtok(istr2, sep);
+        
+        printf("Your choice it's; %s\n", istr1); 
+        istr = strtok(str, sep);
+        
+        while (istr != NULL) {            
+            istr = strtok (NULL, sep);
+            break;
+        }
+        //printf("Argument it's %s\n", istr);
+        if (strcmp(istr1, "test") == 0) {
+            choice = '1';
             printf("1\n");
         }
-        if (strcmp(str, str2)) {
-            choice = 2;
+        else if (strcmp(istr1, "practice") == 0) {
+            if ((istr != NULL) && (isnumber(istr) == 0)) { 
+                argtest = atoi(istr);
+                if ((argtest >= 1) && (argtest <= 20)) {
+                    arg = argtest;
+                    printf("Argument it's; %d\n", arg);
+                } else {
+                    printf("Invalid argument!\n");
+                }
+                
+            }
+            choice = '2';
             printf("2\n");
         }
-        if (strcmp(str, str3)) {
-            choice = 3;
+        else if (strcmp(istr1, "practice_best") == 0) {
+            choice = '3';
             printf("3\n");
         }
-        if (strcmp(str, str4)) {
-            choice = 4;
+        else if (strcmp(istr1, "language") == 0) {
+            choice = '4';
+             if (istr != NULL) {                
+                    if (strcmp(istr, "EN") == 0) {
+                        arg = 1;
+                    }
+                    else if (strcmp(istr, "RU") == 0) {
+                        arg = 2;
+                    }
+                    else {
+                        arg = 0;
+                    }
+                printf("Argument it's; %d\n", arg);  
+                }
             printf("4\n");
         }
-        if (strcmp(str, str5)) {
-            choice = 5;
+        else if (strcmp(istr1, "stats") == 0) {
+            if ((istr != NULL) && (isnumber(istr) == 0)) { 
+                argtest = atoi(istr);
+                if ((argtest >= 1) && (argtest <= 100)) {
+                    arg = argtest;
+                    printf("Argument it's; %d\n", arg);
+                } else {
+                    printf("Invalid argument!\n");
+                    arg = 9;
+                }
+            }
+            choice = '5';
             printf("5\n");
         }
-        if (strcmp(str, str6)) {
-            choice = 6;
+        else if (strcmp(istr1, "stats_export") == 0) {
+            choice = '6';
             printf("6\n");
         }
-        if (strcmp(str, str7)) {
-            choice = 7;
+        else if (strcmp(istr1, "stats_delete") == 0) {
+            choice = '7';
             printf("7\n");
         }
-        if (strcmp(str, str8)) {
-            choice = 8;
+        else if (strcmp(istr1, "quit") == 0) {
+            choice = '8';
             printf("8\n");
         }
         else {
-            printf("Incorrent input. Please, try again!\n");
+            printf("Incorrent input!\n");
         }
         setlocale(LC_ALL, "");
         wchar_t** text;
+        
         if (isdigit(choice)) {
             switch (choice) {
             case '1':
                 //text = texts_get(0);
-              //  texts_print(text);
-               // texts_read(text);
+                //texts_print(text);
+                // texts_read(text);
                  printf("a\n");
                 break;
             case '2':
                 //text = texts_get(practice());
                 //texts_print(text);
-               // texts_read(text);
+                //texts_read(text);
                 printf("b\n");
                 break;
             case '3':
                 // practice_best();
                 printf("c\n");
                 break;
-            case '4':
+            case '4': 
                 // language();
                 printf("d\n");
                 break;
@@ -141,14 +175,24 @@ void menu(void)
                 break;
             }
         } else {
-            printf("Incorrect input. Try again!\n");
+            printf("Try again!\n");
         }
 
     } while (choice != '1' && choice != '2' && choice != '3' && choice != '4'
              && choice != '5' && choice != '6' && choice != '7');
 }
-
-
+//Самописная функция для проверки числа в строке
+int isnumber(char* buf){
+    char* cur = buf;
+    while (*cur != '\0') {
+         if (isdigit(*cur) == 0) {
+            return -1;
+        }
+        cur++;
+    }
+    return 0;
+}
+//Функция для тестирования файла
 int main() {
     menu_display();
     menu();
