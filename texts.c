@@ -4,11 +4,10 @@
 #include <termios.h>
 #include <time.h>
 #include <wchar.h>
+#include "language.h"
 
 #define MAX_SYMBOL_COUNT 1024
 #define PRACTICE_COUNT 30
-
-extern char language[3];
 
 static struct termios stored_settings;
 
@@ -39,11 +38,12 @@ int texts_end(wchar_t* str) {
     }
     return 0;
 }
-
 int texts_get_count() {
     FILE* texts_file;
     wchar_t* str;
     int texts_count = 0;
+    char language[3];
+    get_language(language);
     char* path = malloc(32 * sizeof(char));
     sprintf(path, "%s/texts.txt", language);
     texts_file = fopen(path, "r");
@@ -71,6 +71,8 @@ wchar_t** texts_get(unsigned int text_src) {
     fpos_t pos;  //Для того, чтобы запомнить позицию в файле
     int newline_count;  //Количество переходов на новую строку
     wchar_t** text_out;  //Хранит текст под номером text_number
+    char language[3];
+    get_language(language);
     str = malloc(MAX_SYMBOL_COUNT *
                  sizeof(wchar_t));  //выделение памяти для хранения строк
     if (str == NULL) {  //Выделилась ли память
