@@ -43,45 +43,60 @@ void menu_display()
 void menu(void)
 {
     char str[100];
+    char str1[100];
+    char str2[100];
+    char str3[100];
+    char str4[100];
+    char str5[100];
+    char str6[100];
+    char str7[100];
+    char str8[100];
+    str1[100] = "test";
+    str2[100] = "practice";
+    str3[100] = "practice_best";
+    str4[100] = "language";
+    str5[100] = "stats";
+    str6[100] = "stats_export";
+    str7[100] = "stats_delete";
+    str8[100] = "quit";
     char choice;
     do {
         //fgets(str, 100, stdin);
         gets(str);
-        if (strcmp(str, "test") == 0) {
+        if (strcmp(str, str1)) {
             choice = 1;
             printf("1\n");
         }
-        else if (strcmp(str, "practice") == 0) {
+        if (strcmp(str, str2)) {
             choice = 2;
             printf("2\n");
         }
-        else if (strcmp(str, "practice_best") == 0) {
+        if (strcmp(str, str3)) {
             choice = 3;
             printf("3\n");
         }
-        else if (strcmp(str, "language") == 0) {
+        if (strcmp(str, str4)) {
             choice = 4;
             printf("4\n");
         }
-        else if (strcmp(str, "stats") == 0) {
+        if (strcmp(str, str5)) {
             choice = 5;
             printf("5\n");
-            printf("%d", choice);
         }
-        else if (strcmp(str, "stats_export") == 0) {
+        if (strcmp(str, str6)) {
             choice = 6;
             printf("6\n");
         }
-        else if (strcmp(str, "stats_delete") == 0) {
+        if (strcmp(str, str7)) {
             choice = 7;
             printf("7\n");
         }
-        else if (strcmp(str, "quit") == 0) {
+        if (strcmp(str, str8)) {
             choice = 8;
             printf("8\n");
         }
         else {
-            printf("Incorrent input! Please, try again!\n");
+            printf("Incorrent input. Please, try again!\n");
         }
         setlocale(LC_ALL, "");
         wchar_t** text;
