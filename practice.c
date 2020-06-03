@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "language.h"
+
 // int practice();  //основная фукнция
 // int char_to_int(char*, int, int);  // функция перевода числв char в число int
 
@@ -25,6 +27,8 @@ int char_to_int(char* str, int i, int j, int k) {
 }
 
 int practice() {
+    char language[3];
+    get_language(language);
     FILE* practice_done;
     char* str;  // указатель на массив строк из файла
     int min;    // минимальное количество попыток
@@ -33,7 +37,10 @@ int practice() {
     int key = 1;  // переменная для запоминания номера текста
     int number_of_text = 0;  // переменная, в которой хранится
                              // необходимый номер текста
-    practice_done = fopen("RU/practice_done.txt", "r");  // открываем файл
+    char* path = malloc(32 * sizeof(char));  //массив для пути
+    sprintf(path, "%s/practice_done.txt", language);  //создает текстовый путь
+    practice_done = fopen(path, "r");  // открываем файл
+    free(path);  //особождаем массив для пути
     if (practice_done == NULL) {  // проверка на открытие файла
         printf("Error with opening file");
         return -1;
