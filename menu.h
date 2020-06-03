@@ -5,4 +5,6 @@ void menu_display();
 
 void menu(void);
 
+int isnumber(char* buf);
+
 #endif
