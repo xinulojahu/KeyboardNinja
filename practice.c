@@ -1,22 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "language.h"
+
 // int practice();  //основная фукнция
 // int char_to_int(char*, int, int);  // функция перевода числв char в число int
 
-int char_to_int(char* str, int i, int j) {
+int char_to_int(char* str, int i, int j, int k) {
     int a;
-    int b;
+    int b = str[j];
+    int c = str[k];
     a = str[i] - '0';
-    b = str[j] - '0';
-    if (b > 0) {
-        b *= 10;
-        a += b;
+    if (b != '|') {
+        b = str[j] - '0';
+        a *= 10;
+        b += a;
+        a = b;
+        if (c != '|') {
+            c = str[k] - '0';
+            a *= 10;
+            c += a;
+            a = c;
+        }
     }
     return a;
 }
 
 int practice() {
+    char language[3];
+    get_language(language);
     FILE* practice_done;
     char* str;  // указатель на массив строк из файла
     int min;    // минимальное количество попыток
@@ -25,24 +37,28 @@ int practice() {
     int key = 1;  // переменная для запоминания номера текста
     int number_of_text = 0;  // переменная, в которой хранится
                              // необходимый номер текста
-    practice_done = fopen("RU/practice_done.txt", "r");  // открываем файл
+    char* path = malloc(32 * sizeof(char));  //массив для пути
+    sprintf(path, "%s/practice_done.txt", language);  //создает текстовый путь
+    practice_done = fopen(path, "r");  // открываем файл
+    free(path);  //особождаем массив для пути
     if (practice_done == NULL) {  // проверка на открытие файла
         printf("Error with opening file");
         return -1;
     }
 
-    str = malloc(3000 * sizeof(char));  // выделяем динамическую память для str
+    str = malloc(152 * sizeof(char));  // выделяем динамическую память для str
     fgets(str, 150, practice_done);  // записываем в массив первую строку
-    min = char_to_int(str, 18, 17);  // запоминаем минимальным количеством
-                                     // попыток количество в первом тексте
+    min = char_to_int(str, 0, 1, 2);  // запоминаем минимальным количеством
+                                      // попыток количество в первом тексте
     start_min = min;  // присваеваем для дальнейшего сравнения
 
     for (int i = 1; !feof(practice_done); i++) {
-        fgets(
-            str, 150,
-            practice_done);  //получаем строку (уже получаем вторую и так далее)
-        if (i % 3 == 0) {  // если строка с количеством попыток
-            temp = char_to_int(str, 18, 17);  //то запоминаем эти попытки в temp
+        fgets(str, 150,
+              practice_done);  //получаем строку (уже получаем вторую и так
+                               //далее)
+        if (i % 2 == 0) {  // если строка с количеством попыток
+            temp =
+                char_to_int(str, 0, 1, 2);  //то запоминаем эти попытки в temp
             key++;  // повышаем количество текстов в файле
             if (temp < min) {  // если temp больше min
                 min = temp;    // присваемваем min temp
@@ -55,7 +71,7 @@ int practice() {
         number_of_text = 1;  // запоминаем первый текст
     }
     fclose(practice_done);  // закрываем файл
+    free(str);
 
     return number_of_text;  // возвращаем номер текста
 }
-

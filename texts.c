@@ -4,6 +4,7 @@
 #include <termios.h>
 #include <time.h>
 #include <wchar.h>
+#include "language.h"
 
 #define MAX_SYMBOL_COUNT 1024
 #define PRACTICE_COUNT 30
@@ -37,12 +38,16 @@ int texts_end(wchar_t* str) {
     }
     return 0;
 }
-
 int texts_get_count() {
     FILE* texts_file;
     wchar_t* str;
     int texts_count = 0;
-    texts_file = fopen("RU/texts.txt", "r");
+    char language[3];
+    get_language(language);
+    char* path = malloc(32 * sizeof(char));
+    sprintf(path, "%s/texts.txt", language);
+    texts_file = fopen(path, "r");
+    free(path);
     if (texts_file == NULL) {
         return -1;
     }
@@ -66,6 +71,8 @@ wchar_t** texts_get(unsigned int text_src) {
     fpos_t pos;  //Для того, чтобы запомнить позицию в файле
     int newline_count;  //Количество переходов на новую строку
     wchar_t** text_out;  //Хранит текст под номером text_number
+    char language[3];
+    get_language(language);
     str = malloc(MAX_SYMBOL_COUNT *
                  sizeof(wchar_t));  //выделение памяти для хранения строк
     if (str == NULL) {  //Выделилась ли память
@@ -73,7 +80,10 @@ wchar_t** texts_get(unsigned int text_src) {
     }
 
     if (text_src == 0) {
-        texts_file = fopen("RU/texts.txt", "r");  //Открытие файла
+        char* path = malloc(32 * sizeof(char));
+        sprintf(path, "%s/texts.txt", language);
+        texts_file = fopen(path, "r");
+        free(path);
         if (texts_file == NULL) {  //Проверка, открылся ли файл
             return NULL;
         }
@@ -88,14 +98,13 @@ wchar_t** texts_get(unsigned int text_src) {
             }
         }
     } else if (text_src < PRACTICE_COUNT) {
-        char* temp;
-        temp = malloc(28 * sizeof(char));
-        sprintf(temp, "%s%d%s", "RU/practice/practice_", text_src, ".txt");
-        texts_file = fopen(temp, "r");
+        char* path = malloc(32 * sizeof(char));
+        sprintf(path, "%s/practice/practice_%d.txt", language, text_src);
+        texts_file = fopen(path, "r");
+        free(path);
         if (texts_file == NULL) {  //Проверка, открылся ли файл
             return NULL;
         }
-        free(temp);
     } else {
         return NULL;
     }

@@ -5,7 +5,7 @@ CC=gcc
 CFLAGS=-c -Wall -Werror -g3 
 
 # общие файлы
-FILES=main.c menu.c practice.c stats.c texts.c
+FILES=main.c menu.c practice.c stats.c texts.c language.c
 
 OBJ=$(patsubst %.c, %.o, $(FILES))
 # объектные файлы тестов
