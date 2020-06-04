@@ -1,14 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "language.h"
 #include "practice.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-#define ST_PRINT                                                    \
-    fprintf(stats_file, "%03d|%02d:%02d|%04d|%03d|%05.1f%%\n", num, \
-            seconds / 60, seconds % 60, sym_per_minuts, errors, errors_prcnt);
+#define ST_PRINT                                   \
+    fprintf(stats_file,                            \
+            "%03d|%02d:%02d|%04d|%03d|%05.1f%%\n", \
+            num,                                   \
+            seconds / 60,                          \
+            seconds % 60,                          \
+            sym_per_minuts,                        \
+            errors,                                \
+            errors_prcnt);
 
-int stats_fprint(int seconds, int sym_per_minuts, int errors,
-                 double errors_prcnt) {
+int stats_fprint(
+        int seconds, int sym_per_minuts, int errors, double errors_prcnt)
+{
     FILE* stats_file;
     char language[3];
     get_language(language);
@@ -63,7 +70,8 @@ int stats_fprint(int seconds, int sym_per_minuts, int errors,
     return 0;
 }
 
-int stats_export() {
+int stats_export()
+{
     FILE* stats_file;
     char language[3];
     get_language(language);
@@ -120,7 +128,8 @@ int stats_export() {
     return 0;
 }
 
-int stats() {
+int stats()
+{
     FILE* stats_file;
     char str;
     char language[3];

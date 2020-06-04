@@ -3,12 +3,13 @@
 #include <stdlib.h>
 #include <wchar.h>
 
-#include <locale.h>
 #include "practice.h"
 #include "stats.h"
 #include "texts.h"
+#include <locale.h>
 
-void menu_display() {
+void menu_display()
+{
     printf(" _____ _____ _____ _____ _____ _____ _____ _____ __________ ");
     printf("_____ _____ _____ _____ _____ \n");
     printf("|| K ||| e ||| y ||| b ||| o ||| a ||| r ||| d |||        ");
@@ -40,7 +41,8 @@ void menu_display() {
     printf("\n");
 }
 
-void menu(void) {
+void menu(void)
+{
     char str[100];
     char choice;
     do {
@@ -51,45 +53,45 @@ void menu(void) {
         int text_num = 0;
         if (isdigit(choice)) {
             switch (choice) {
-                case '2':
-                    text_num = practice();
-                case '1':
-                    text = texts_get(text_num);
-                    texts_print(text);
-                    texts_read(text, text_num);
-                    break;
-                case '3':
-                    // practice_best();
-                    printf("c\n");
-                    break;
-                case '4':
-                    // language();
-                    printf("d\n");
-                    break;
-                case '5':
-                    // stats();
-                    printf("f\n");
-                    break;
-                case '6':
-                    stats_export();
-                    printf("Данные были экспортированы\n");
-                    break;
-                case '7':
-                    // stats_del();
-                    printf("h\n");
-                    break;
-                case '8':
-                    exit(0);
-                default:
-                    printf("Incorrect input. Please, try again!\n");
-                    break;
+            case '2':
+                text_num = practice();
+            case '1':
+                text = texts_get(text_num);
+                texts_print(text);
+                texts_read(text, text_num);
+                break;
+            case '3':
+                // practice_best();
+                printf("c\n");
+                break;
+            case '4':
+                // language();
+                printf("d\n");
+                break;
+            case '5':
+                // stats();
+                printf("f\n");
+                break;
+            case '6':
+                stats_export();
+                printf("Данные были экспортированы\n");
+                break;
+            case '7':
+                // stats_del();
+                printf("h\n");
+                break;
+            case '8':
+                exit(0);
+            default:
+                printf("Incorrect input. Please, try again!\n");
+                break;
             }
         } else {
             printf("Incorrect input. Try again!\n");
         }
 
-    } while (choice != '1' && choice != '2' && choice != '3' && choice != '4' &&
-             choice != '5' && choice != '6' && choice != '7');
+    } while (choice != '1' && choice != '2' && choice != '3' && choice != '4'
+             && choice != '5' && choice != '6' && choice != '7');
 }
 //Принт букв для проверки работоспособности функции, при готовности функций
 //буквы стереть

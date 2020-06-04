@@ -1,18 +1,19 @@
+#include "language.h"
+#include "stats.h"
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
 #include <time.h>
 #include <wchar.h>
-#include "language.h"
-#include "stats.h"
 
 #define MAX_SYMBOL_COUNT 1024
 #define PRACTICE_COUNT 30
 
 static struct termios stored_settings;
 
-void set_keypress(void) {
+void set_keypress(void)
+{
     struct termios new_settings;
 
     tcgetattr(0, &stored_settings);
@@ -28,18 +29,21 @@ void set_keypress(void) {
     return;
 }
 
-void reset_keypress(void) {
+void reset_keypress(void)
+{
     tcsetattr(0, TCSANOW, &stored_settings);
     return;
 }
 
-int texts_end(wchar_t* str) {
+int texts_end(wchar_t* str)
+{
     if ((str[0] == '&') && (str[1] == '&')) {
         return 1;
     }
     return 0;
 }
-int texts_get_count() {
+int texts_get_count()
+{
     FILE* texts_file;
     wchar_t* str;
     int texts_count = 0;
@@ -64,19 +68,21 @@ int texts_get_count() {
     return texts_count;
 }
 
-wchar_t** texts_get(unsigned int text_src) {
+wchar_t** texts_get(unsigned int text_src)
+{
     //Инициализация переменных
-    FILE* texts_file;  //Для работы с файлом
-    wchar_t* str;      //Для считывания строк
-    int text_number;   //Номер текста
-    fpos_t pos;  //Для того, чтобы запомнить позицию в файле
-    int newline_count;  //Количество переходов на новую строку
-    wchar_t** text_out;  //Хранит текст под номером text_number
+    FILE* texts_file; //Для работы с файлом
+    wchar_t* str;     //Для считывания строк
+    int text_number;  //Номер текста
+    fpos_t pos; //Для того, чтобы запомнить позицию в файле
+    int newline_count; //Количество переходов на новую строку
+    wchar_t** text_out; //Хранит текст под номером text_number
     char language[3];
     get_language(language);
-    str = malloc(MAX_SYMBOL_COUNT *
-                 sizeof(wchar_t));  //выделение памяти для хранения строк
-    if (str == NULL) {  //Выделилась ли память
+    str = malloc(
+            MAX_SYMBOL_COUNT
+            * sizeof(wchar_t)); //выделение памяти для хранения строк
+    if (str == NULL) { //Выделилась ли память
         return NULL;
     }
 
@@ -85,11 +91,11 @@ wchar_t** texts_get(unsigned int text_src) {
         sprintf(path, "%s/texts.txt", language);
         texts_file = fopen(path, "r");
         free(path);
-        if (texts_file == NULL) {  //Проверка, открылся ли файл
+        if (texts_file == NULL) { //Проверка, открылся ли файл
             return NULL;
         }
-        srand(time(NULL));                         //Случайный сид
-        text_number = rand() % texts_get_count();  //Открытия случайного текста
+        srand(time(NULL));                        //Случайный сид
+        text_number = rand() % texts_get_count(); //Открытия случайного текста
 
         //Поиск нужного текста
         while (text_number) {
@@ -103,13 +109,13 @@ wchar_t** texts_get(unsigned int text_src) {
         sprintf(path, "%s/practice/practice_%d.txt", language, text_src);
         texts_file = fopen(path, "r");
         free(path);
-        if (texts_file == NULL) {  //Проверка, открылся ли файл
+        if (texts_file == NULL) { //Проверка, открылся ли файл
             return NULL;
         }
     } else {
         return NULL;
     }
-    newline_count = 0;  //Обнуление счетчика переходов на новую строку
+    newline_count = 0; //Обнуление счетчика переходов на новую строку
 
     //Подсчет количества переходов на новую строку
     fgetpos(texts_file, &pos);
@@ -139,7 +145,8 @@ wchar_t** texts_get(unsigned int text_src) {
     return text_out;
 }
 
-void texts_print(wchar_t** text) {
+void texts_print(wchar_t** text)
+{
     for (int i = 0; !texts_end(text[i]); i++) {
         for (wchar_t* j = text[i]; *j != '\0'; j++) {
             printf("%lc", *j);
@@ -148,7 +155,8 @@ void texts_print(wchar_t** text) {
     printf("\n");
 }
 
-void texts_read(wchar_t** text, unsigned int text_src) {
+void texts_read(wchar_t** text, unsigned int text_src)
+{
     wchar_t c;
     int errors = 0;
     int sym_count = 0;
@@ -174,8 +182,13 @@ void texts_read(wchar_t** text, unsigned int text_src) {
     if (seconds > 0) {
         sym_per_min = sym_count * 60 / seconds;
     }
-    printf("%5d|%02d:%02d|%5d|%5d|%4.1f%%\n", 1, seconds / 60, seconds % 60,
-           sym_per_min, errors, errors_prcnt);
+    printf("%5d|%02d:%02d|%5d|%5d|%4.1f%%\n",
+           1,
+           seconds / 60,
+           seconds % 60,
+           sym_per_min,
+           errors,
+           errors_prcnt);
     if (text_src == 0) {
         stats_fprint(seconds, sym_per_min, errors, errors_prcnt);
     }

@@ -5,7 +5,8 @@
 
 #define MAX_SIZE 64
 
-int get_language(char* language) {
+int get_language(char* language)
+{
     FILE* settings_file;
     settings_file = fopen("settings", "r");
     if (settings_file == NULL) {
@@ -34,7 +35,8 @@ int get_language(char* language) {
     return -1;
 }
 
-int change_language(char* language) {
+int change_language(char* language)
+{
     FILE* settings_file;
     settings_file = fopen("settings", "w");
     if (settings_file == NULL) {
