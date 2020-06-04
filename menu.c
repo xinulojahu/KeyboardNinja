@@ -5,6 +5,7 @@
 
 #include <locale.h>
 #include "practice.h"
+#include "stats.h"
 #include "texts.h"
 
 void menu_display() {
@@ -70,8 +71,8 @@ void menu(void) {
                     printf("f\n");
                     break;
                 case '6':
-                    // stats_exp();
-                    printf("g\n");
+                    stats_export();
+                    printf("Данные были экспортированы\n");
                     break;
                 case '7':
                     // stats_del();
