@@ -42,7 +42,6 @@ int stats_fprint(int seconds, int sym_per_minuts, int errors,
             cur++;
         }
         best_spm = char_to_int(cur, 0, 1, 2);
-        printf("\n ---- %d\n", best_spm);
         fgets(str, 64, stats_file);
         num = (char_to_int(str, 0, 1, 2) + 1) % 1000;
         fputs(str, temp_file);
