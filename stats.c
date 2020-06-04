@@ -9,21 +9,28 @@ int stats(int num) {
     char *estr;
     //char* language[3];
     //get_language(language);
-
+    printf("Argument is %d\n", num);
     if (stats_file == NULL) {
         printf("Error openning the file!\n");
         return -1;
     }
-    else if (fgets(str, 100, stats_file) != NULL) {
-        if (num == NULL) {
-            //Think about it
-        }
-        else {
-            for (int i = 0; i < num; i++) {
-                puts(str);
+
+    while (1) {
+            estr = fgets (str, 100, stats_file);
+            if ((estr == NULL) || (num == 0)) {
+                if (feof (stats_file) != 0) {
+                    printf("Reading is complete!\n");
+                    break;
+                }
+                else {
+                    printf("Reading is complete.\n");
+                    break;
+                }
             }
-        }
-    }
+            puts(str);
+            num--;
+     }       
+
     fclose(stats_file);
     printf("\n");
     return 0;
