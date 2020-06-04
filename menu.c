@@ -47,17 +47,15 @@ void menu(void) {
         choice = str[0];
         setlocale(LC_ALL, "");
         wchar_t** text;
+        int text_num = 0;
         if (isdigit(choice)) {
             switch (choice) {
-                case '1':
-                    text = texts_get(0);
-                    texts_print(text);
-                    texts_read(text);
-                    break;
                 case '2':
-                    text = texts_get(practice());
+                    text_num = practice();
+                case '1':
+                    text = texts_get(text_num);
                     texts_print(text);
-                    texts_read(text);
+                    texts_read(text, text_num);
                     break;
                 case '3':
                     // practice_best();
