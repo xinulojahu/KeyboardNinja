@@ -5,6 +5,7 @@
 
 // int practice();  //основная фукнция
 // int char_to_int(char*, int, int);  // функция перевода числв char в число int
+// int practice_print(int); // Функция вывода лучших результатов
 
 int char_to_int(char* str, int i, int j, int k) {
     int a;
@@ -24,6 +25,49 @@ int char_to_int(char* str, int i, int j, int k) {
         }
     }
     return a;
+}
+
+int practice_print(int num) {
+    FILE* practice_best;
+    char str[100];
+    char *estr;
+    int numcount;
+    int count = 1;
+    practice_best = fopen("practice_done.txt", "r");
+    numcount = num;
+    num = num - 1;
+    if (practice_best == NULL) {
+        printf("Error openning the file!\n");
+        return -1;
+    }
+    //Чтение построчно данных из файла в бесконечном цикле
+    while (1) {
+            // Чтение одной строки  из файла
+            estr = fgets (str, 100, practice_best);
+            //Проверка на конец файла или конец аргумента
+            if ((estr == NULL) || (num == 0)) {
+                if (feof (practice_best) != 0) {
+                    printf("Reading is complete!\n");
+                    break;
+                }
+                else {
+                    printf("Reading is complete.\n");
+                    break;
+                }
+            }
+            num = num - 1;
+            count++;
+    }
+    if ((count == numcount) && (feof (practice_best) == 0)) {
+        puts(str);
+    }
+    else {      
+        printf("Invalid input!\n");
+    }
+    //Закрытие файла
+    printf("\n");
+    fclose(practice_best);
+    return 0;
 }
 
 int practice() {
