@@ -1,30 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "language.h"
+#include <string.h>
+//#include "language.h"
 
-int stats() {
-    FILE* stats_file;
-    char str;
-    char* language[3];
-    get_language(language);
+int stats(int num) {
+    FILE* stats_file = fopen("results.txt", "r");
+    char str[100];
+    char *estr;
+    //char* language[3];
+    //get_language(language);
 
-    char* path = malloc(32 * sizeof(char));
-    sprintf(path, "%s/results.txt", language);
-    stats_file = fopen(path, "r");
-    free(path);
     if (stats_file == NULL) {
         printf("Error openning the file!\n");
         return -1;
     }
-
-    str = fgetc(stats_file);
-    while (str != EOF) {
-        putchar(str);
-        str = getc(stats_file);
+    else if (fgets(str, 100, stats_file) != NULL) {
+        if (num == NULL) {
+            //Think about it
+        }
+        else {
+            for (int i = 0; i < num; i++) {
+                puts(str);
+            }
+        }
     }
-    printf("\n");
     fclose(stats_file);
-
+    printf("\n");
     return 0;
 }
+    
 
+int main() {
+    int arg;
+    printf("\nEnter the argument:\n");
+    scanf("%d", &arg);
+    stats(arg);
+    return 0;
+}
