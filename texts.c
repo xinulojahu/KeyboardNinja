@@ -5,6 +5,7 @@
 #include <time.h>
 #include <wchar.h>
 #include "language.h"
+#include "stats.h"
 
 #define MAX_SYMBOL_COUNT 1024
 #define PRACTICE_COUNT 30
@@ -147,7 +148,7 @@ void texts_print(wchar_t** text) {
     printf("\n");
 }
 
-void texts_read(wchar_t** text) {
+void texts_read(wchar_t** text, unsigned int text_src) {
     wchar_t c;
     int errors = 0;
     int sym_count = 0;
@@ -168,14 +169,15 @@ void texts_read(wchar_t** text) {
     }
     reset_keypress();
     seconds = time(NULL) - seconds;
-    int minuts = seconds / 60;
+    double errors_prcnt = 100 - errors * 100 / sym_count;
     int sym_per_min = 0;
     if (seconds > 0) {
         sym_per_min = sym_count * 60 / seconds;
-        seconds %= 60;
     }
-    double errors_prcnt = 100 - errors * 100 / sym_count;
-    printf("%5d|%02d:%02d|%5d|%5d|%4.1f%%\n", 1, minuts, seconds, sym_per_min,
-           errors, errors_prcnt);
+    printf("%5d|%02d:%02d|%5d|%5d|%4.1f%%\n", 1, seconds / 60, seconds % 60,
+           sym_per_min, errors, errors_prcnt);
+    if (text_src == 0) {
+        stats_fprint(seconds, sym_per_min, errors, errors_prcnt);
+    }
 }
 
