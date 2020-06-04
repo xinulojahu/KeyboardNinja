@@ -6,24 +6,14 @@
 // int practice();  //основная фукнция
 // int char_to_int(char*, int, int);  // функция перевода числв char в число int
 
-int char_to_int(char* str, int i, int j, int k) {
-    int a;
-    int b = str[j];
-    int c = str[k];
-    a = str[i] - '0';
-    if (b != '|') {
-        b = str[j] - '0';
-        a *= 10;
-        b += a;
-        a = b;
-        if (c != '|') {
-            c = str[k] - '0';
-            a *= 10;
-            c += a;
-            a = c;
-        }
+int char_to_int(char* str, char dec) {
+    int res = 0;
+    while (*str != dec) {
+        res *= 10;
+        res += *str - '0';
+        str++;
     }
-    return a;
+    return res;
 }
 
 int practice() {
@@ -48,8 +38,8 @@ int practice() {
 
     str = malloc(152 * sizeof(char));  // выделяем динамическую память для str
     fgets(str, 150, practice_done);  // записываем в массив первую строку
-    min = char_to_int(str, 0, 1, 2);  // запоминаем минимальным количеством
-                                      // попыток количество в первом тексте
+    min = char_to_int(str, '|');  // запоминаем минимальным количеством
+                                  // попыток количество в первом тексте
     start_min = min;  // присваеваем для дальнейшего сравнения
 
     for (int i = 1; !feof(practice_done); i++) {
@@ -57,8 +47,7 @@ int practice() {
               practice_done);  //получаем строку (уже получаем вторую и так
                                //далее)
         if (i % 2 == 0) {  // если строка с количеством попыток
-            temp =
-                char_to_int(str, 0, 1, 2);  //то запоминаем эти попытки в temp
+            temp = char_to_int(str, '|');  //то запоминаем эти попытки в temp
             key++;  // повышаем количество текстов в файле
             if (temp < min) {  // если temp больше min
                 min = temp;    // присваемваем min temp
