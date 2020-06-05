@@ -5,6 +5,18 @@
 
 #define MAX_SIZE 64
 
+FILE* openfile(char* filetxt, char* flag)
+{
+    FILE* file_ret;
+    char language[3];
+    get_language(language);
+    char* path = malloc(32 * sizeof(char));
+    sprintf(path, "%s/%s", language, filetxt);
+    file_ret = fopen(path, flag);
+    free(path);
+    return file_ret;
+}
+
 int get_language(char* language)
 {
     FILE* settings_file;
