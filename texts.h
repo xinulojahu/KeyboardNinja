@@ -1,5 +1,6 @@
 #ifndef TEXTS_H
 #define TEXTS_H
+#include <wchar.h>
 
 void set_keypress(void);
 
@@ -13,6 +14,6 @@ wchar_t** texts_get(unsigned int text_src);
 
 void texts_print(wchar_t** text);
 
-void texts_read(wchar_t** text);
+void texts_read(wchar_t** text, unsigned int text_src);
 
 #endif

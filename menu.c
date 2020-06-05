@@ -1,11 +1,13 @@
+#include "practice.h"
+#include "stats.h"
+#include "texts.h"
 #include <ctype.h>
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
-//#include "practice.h"
-//#include "texts.h"
-#include <locale.h>
+
 //Функция для вывода главного меню
 void menu_display()
 {
@@ -40,6 +42,19 @@ void menu_display()
     printf("\n");
 }
 
+//Самописная функция для проверки числа в строке
+int isnumber(char* buf)
+{
+    char* cur = buf;
+    while (*cur != '\0') {
+        if (isdigit(*cur) == 0) {
+            return -1;
+        }
+        cur++;
+    }
+    return 0;
+}
+
 void menu(void)
 {
     char str[100];      //Входной поток данных
@@ -51,8 +66,8 @@ void menu(void)
     int arg = 0; //Интовый аргумент посылаемый в функцию
     int argtest = 0; //Переменная для аргумента
     do {
-        // fgets(str, 100, stdin);
-        gets(str);               //Считываем строку
+        fgets(str, 100, stdin); //Считываем строку
+        str[strlen(str) - 1] = '\0';
         strncpy(istr2, str, 20); //Копируем содержимое str в str2
         istr1 = strtok(istr2, sep); //Вычленяем комманду из строки
 
@@ -137,20 +152,15 @@ void menu(void)
         }
         setlocale(LC_ALL, "");
         wchar_t** text;
-        //Свичкейс нужно комментить?
+        int text_num = 0;
         if (isdigit(choice)) {
             switch (choice) {
-            case '1':
-                // text = texts_get(0);
-                // texts_print(text);
-                // texts_read(text);
-                printf("a\n");
-                break;
             case '2':
-                // text = texts_get(practice());
-                // texts_print(text);
-                // texts_read(text);
-                printf("b\n");
+                text_num = practice();
+            case '1':
+                text = texts_get(text_num);
+                texts_print(text);
+                texts_read(text, text_num);
                 break;
             case '3':
                 // practice_best();
@@ -165,8 +175,8 @@ void menu(void)
                 printf("f\n");
                 break;
             case '6':
-                // stats_exp();
-                printf("g\n");
+                stats_export();
+                printf("Данные были экспортированы\n");
                 break;
             case '7':
                 // stats_del();
@@ -181,27 +191,6 @@ void menu(void)
         } else {
             printf("Try again!\n");
         }
-
     } while (choice != '1' && choice != '2' && choice != '3' && choice != '4'
              && choice != '5' && choice != '6' && choice != '7');
 }
-//Самописная функция для проверки числа в строке
-int isnumber(char* buf)
-{
-    char* cur = buf;
-    while (*cur != '\0') {
-        if (isdigit(*cur) == 0) {
-            return -1;
-        }
-        cur++;
-    }
-    return 0;
-}
-//Функция для тестирования файла
-int main()
-{
-    menu_display();
-    menu();
-    return 0;
-}
-

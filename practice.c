@@ -7,41 +7,39 @@
 // int char_to_int(char*, int, int);  // функция перевода числв char в число int
 // int practice_print(int); // Функция вывода лучших результатов
 
-int char_to_int(char* str, int i, int j, int k)
+int char_to_int(char* str, char dec)
 {
-    int a;
-    int b = str[j];
-    int c = str[k];
-    a = str[i] - '0';
-    if (b != '|') {
-        b = str[j] - '0';
-        a *= 10;
-        b += a;
-        a = b;
-        if (c != '|') {
-            c = str[k] - '0';
-            a *= 10;
-            c += a;
-            a = c;
-        }
+    int res = 0;
+    while (*str != dec) {
+        res *= 10;
+        res += *str - '0';
+        str++;
     }
-    return a;
+    return res;
 }
 
 int practice_print(int num)
 {
-    FILE* practice_best; //Переменная с указателем на поток данных
     char str[100]; //Переменная для записи строк
     char* estr; //Указатель с адресом массива со строкой
     int numcount;
     int count = 1; //Счетчик итераций цикла
-    practice_best = fopen("practice_done.txt", "r");
-    numcount = num;
-    num = num - 1;
-    if (practice_best == NULL) {
-        printf("Error openning the file!\n");
+
+    FILE* practice_best; //Переменная с указателем на поток данных
+    char language[3];
+    get_language(language);
+    char* path = malloc(32 * sizeof(char)); //массив для пути
+    sprintf(path, "%s/practice_done.txt", language); //создает текстовый путь
+    practice_best = fopen(path, "r"); // открываем файл
+    free(path); //особождаем массив для пути
+    if (practice_best == NULL) { // проверка на открытие файла
+        printf("Error with opening file");
         return -1;
     }
+
+    numcount = num;
+    num = num - 1;
+
     //Чтение построчно данных из файла в бесконечном цикле
     while (1) {
         // Чтение одной строки  из файла
@@ -73,8 +71,6 @@ int practice_print(int num)
 
 int practice()
 {
-    char language[3];
-    get_language(language);
     FILE* practice_done;
     char* str; // указатель на массив строк из файла
     int min;   // минимальное количество попыток
@@ -83,6 +79,8 @@ int practice()
     int key = 1; // переменная для запоминания номера текста
     int number_of_text = 0; // переменная, в которой хранится
                             // необходимый номер текста
+    char language[3];
+    get_language(language);
     char* path = malloc(32 * sizeof(char)); //массив для пути
     sprintf(path, "%s/practice_done.txt", language); //создает текстовый путь
     practice_done = fopen(path, "r"); // открываем файл
@@ -94,8 +92,8 @@ int practice()
 
     str = malloc(152 * sizeof(char)); // выделяем динамическую память для str
     fgets(str, 150, practice_done); // записываем в массив первую строку
-    min = char_to_int(str, 0, 1, 2); // запоминаем минимальным количеством
-                                     // попыток количество в первом тексте
+    min = char_to_int(str, '|'); // запоминаем минимальным количеством
+                                 // попыток количество в первом тексте
     start_min = min; // присваеваем для дальнейшего сравнения
 
     for (int i = 1; !feof(practice_done); i++) {
@@ -104,7 +102,7 @@ int practice()
               practice_done); //получаем строку (уже получаем вторую и так
                               //далее)
         if (i % 2 == 0) { // если строка с количеством попыток
-            temp = char_to_int(str, 0, 1, 2); //то запоминаем эти попытки в temp
+            temp = char_to_int(str, '|'); //то запоминаем эти попытки в temp
             key++; // повышаем количество текстов в файле
             if (temp < min) { // если temp больше min
                 min = temp;   // присваемваем min temp

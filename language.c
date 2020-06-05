@@ -5,7 +5,8 @@
 
 #define MAX_SIZE 64
 
-int get_language(char* language) {
+int get_language(char* language)
+{
     FILE* settings_file;
     settings_file = fopen("settings", "r");
     if (settings_file == NULL) {
@@ -17,14 +18,11 @@ int get_language(char* language) {
         if (cur != NULL) {
             if (strcmp(cur, "language") == 0) {
                 cur = strtok(NULL, "=");
-                if (strcmp(cur, "RU\n") == 0) {
-                    strcpy(language, "RU");
-                    fclose(settings_file);
-                    free(str);
-                    return 0;
+                if (*(cur + 2) == '\n') {
+                    *(cur + 2) = '\0';
                 }
-                if (strcmp(cur, "EN\n") == 0) {
-                    strcpy(language, "EN");
+                if ((strcmp(cur, "RU") == 0) || (strcmp(cur, "EN") == 0)) {
+                    strcpy(language, cur);
                     fclose(settings_file);
                     free(str);
                     return 0;
@@ -37,7 +35,8 @@ int get_language(char* language) {
     return -1;
 }
 
-int change_language(char* language) {
+int change_language(char* language)
+{
     FILE* settings_file;
     settings_file = fopen("settings", "w");
     if (settings_file == NULL) {
