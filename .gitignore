@@ -2,3 +2,5 @@ builder/src/*.o
 builder/test/*.o
 bin/keyboardninja
 bin/tests
+RU/results.txt
+EN/results.txt
