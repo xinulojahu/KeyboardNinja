@@ -75,7 +75,7 @@ void menu(void)
         strncpy(istr2, str, 20); //Копируем содержимое str в str2
         istr1 = strtok(istr2, sep); //Вычленяем комманду из строки
 
-        printf("Your choice it's; %s\n", istr1); //Вспомогательная строка
+        printf("Ваш выбор: %s\n", istr1); //Вспомогательная строка
         istr = strtok(str, sep); //Выделение первой части строки
 
         //Цикл для выделения следующей части (аргумента)
@@ -83,11 +83,9 @@ void menu(void)
             istr = strtok(NULL, sep);
             break;
         }
-        // printf("Argument it's %s\n", istr);
         //Сравнение содержимого строки с командой
         if (strcmp(istr1, "test") == 0) {
             choice = '1'; //Присвоение соответствующего выбора для свичкейса
-            printf("1\n"); //Вспомогательная строка
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "practice") == 0) {
@@ -97,18 +95,15 @@ void menu(void)
                 if ((argtest >= 1)
                     && (argtest <= PRACTICE_COUNT)) { //Условие на аргумент
                     arg = argtest; //Конечный аргумент
-                    printf("Argument it's; %d\n", arg); //Вспомогательная строка
                 } else {
-                    printf("Invalid argument!\n"); //Неверный аргумент
+                    printf("Неверный аргумент!\n"); //Неверный аргумент
                 }
             }
             choice = '2'; //Присвоение соответствующего выбора для свичкейса
-            printf("2\n"); //Вспомогательная строка
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "practice_best") == 0) {
             choice = '3';  //Для свичкейса
-            printf("3\n"); //Вспомогательная строка
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "language") == 0) {
@@ -126,9 +121,7 @@ void menu(void)
                 } else {
                     arg = 0; //Это тоже оно
                 }
-                printf("Argument it's; %d\n", arg); //Вспомогательная строка
-            }
-            printf("4\n"); //Вспомогательная строка
+            }          
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "stats") == 0) {
@@ -137,28 +130,23 @@ void menu(void)
                 argtest = atoi(istr); //Перевод аргумента из строки в int
                 if ((argtest >= 1) && (argtest <= 100)) {
                     arg = argtest; //Присвоение аргумента
-                    printf("Argument it's; %d\n", arg); //Вспомогательная строка
                 } else {
-                    printf("Invalid argument!\n");
+                    printf("Неверный аргумент!\n");
                 }
             }
             choice = '5';  //Свичкейс
-            printf("5\n"); //Вспомогательная строка
             //Сравнение содержимого строки с командой
         } else if (strcmp(istr1, "stats_export") == 0) {
             choice = '6';  //Я усталб((9(
-            printf("6\n"); //Вспомогательная строка
             //Сравнение содержимого строки с командой
         } else if (strcmp(istr1, "stats_delete") == 0) {
             choice = '7';  //Свичкейс
-            printf("7\n"); //Вспомогательная строка
             //Сравнение содержимого строки с командой
         } else if (strcmp(istr1, "quit") == 0) {
             choice = '8';  //Свичкейс
-            printf("8\n"); //Вспомогательная строка
             //Если введенной команды не сущесвтует
         } else {
-            printf("Incorrent input!\n");
+            printf("Некорректный ввод!\n");
         }
         setlocale(LC_ALL, "");
         wchar_t** text;
@@ -184,7 +172,7 @@ void menu(void)
                 if (arg == 1) {
                     change_language(language);
                 }
-                printf("Current language: %s\n", language);
+                printf("Выбранный язык: %s\n", language);
                 break;
             case '5':
                 stats(arg + 1);
@@ -199,14 +187,14 @@ void menu(void)
             case '8':
                 exit(0);
             default:
-                printf("Incorrect input. Please, try again!\n");
+                printf("Неккоректный ввод. Попробуйте снова!\n");
                 break;
             }
         } else {
-            printf("Try again!\n");
+            printf("Попробуйте снова!\n");
         }
     } while (choice != '1' && choice != '2' && choice != '3' && choice != '4'
              && choice != '5' && choice != '6' && choice != '7');
-    printf("\nPress Enter to coninue\n");
+    printf("\nНажмите Enter чтобы продолжить\n");
     getchar();
 }

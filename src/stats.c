@@ -16,14 +16,27 @@
 
 void stats_delete()
 {
-    char* path = malloc(32 * sizeof(char));
-    char language[3];
-    get_language(language);
-    sprintf(path, "%s/results.txt", language);
-    remove(path);
-    sprintf(path, "%s/practice_done.txt", language);
-    remove(path);
-    free(path);
+    char str[10];
+    printf("Вы уверены, что хотите удалить статистику? Операция необратима.\n");
+    printf("Введите y или n:\n");
+    fgets(str, 10, stdin);
+    if ((strcmp(str, "y\n") == 0) || (strcmp(str, "yes\n") == 0)) {
+        char* path = malloc(32 * sizeof(char));
+        char language[3];
+        get_language(language);
+        sprintf(path, "%s/results.txt", language);
+        remove(path);
+        sprintf(path, "%s/practice_done.txt", language);
+        remove(path);
+        free(path);
+        printf("Статистика была удалена\n");
+    }
+    else if ((strcmp(str, "n\n") == 0) || (strcmp(str, "no\n") == 0)) {
+        printf("Вы отменили удаление статистики\n");
+    }
+    else {
+        printf("Некорректный ввод!\n");
+   }
 }
 
 int stats_fprint(
