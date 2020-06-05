@@ -87,9 +87,12 @@ void menu(void)
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "practice") == 0) {
+            practice_check();
+            arg = practice();
             if ((istr != NULL) && (isnumber(istr) == 0)) {
                 argtest = atoi(istr); //Вспомогательная переменная для аргумента
-                if ((argtest >= 1) && (argtest <= 20)) { //Условие на аргумент
+                if ((argtest >= 1)
+                    && (argtest <= PRACTICE_COUNT)) { //Условие на аргумент
                     arg = argtest; //Конечный аргумент
                     printf("Argument it's; %d\n", arg); //Вспомогательная строка
                 } else {
@@ -156,7 +159,7 @@ void menu(void)
         if (isdigit(choice)) {
             switch (choice) {
             case '2':
-                text_num = practice();
+                text_num = arg;
             case '1':
                 text = texts_get(text_num);
                 texts_print(text);

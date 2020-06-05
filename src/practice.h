@@ -1,6 +1,10 @@
 #ifndef PRACTICE_H
 #define PRACTICE_H
 
+#define PRACTICE_COUNT 30
+
+void practice_check();
+
 int char_to_int(char* str, char dec);
 
 int practice();

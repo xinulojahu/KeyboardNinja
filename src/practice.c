@@ -1,3 +1,4 @@
+#include "practice.h"
 #include "language.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +7,19 @@
 // int practice();  //основная фукнция
 // int char_to_int(char*, int, int);  // функция перевода числв char в число int
 // int practice_print(int); // Функция вывода лучших результатов
+
+void practice_check()
+{
+    FILE* practice_file;
+    practice_file = openfile("practice_done.txt", "r");
+    if (practice_file == NULL) {
+        practice_file = openfile("practice_done.txt", "w");
+    }
+    for (int i = 0; i < PRACTICE_COUNT; i++) {
+        fprintf(practice_file, "000|00:00|0000|000|000,0%%\n");
+    }
+    fclose(practice_file);
+}
 
 int char_to_int(char* str, char dec)
 {
@@ -41,25 +55,18 @@ int practice_print(int num)
         estr = fgets(str, 100, practice_best);
         //Проверка на конец файла или конец аргумента
         if ((estr == NULL) || (num == 0)) {
-            if (feof(practice_best) != 0) {
-                printf("Reading is complete!\n");
-                break;
-            } else {
-                printf("Reading is complete.\n");
-                break;
-            }
+            break;
         }
         num = num - 1; //Уменьшение аргумента с каждой итерацией
         count++; //Счетчик
     }
     //Условие на проверку конца цикла или конец файла
     if ((count == numcount) && (feof(practice_best) == 0)) {
-        puts(str); //Вывод нужной строки
+        fputs(str, stdout); //Вывод нужной строки
     } else {
         printf("Invalid input!\n");
     }
     //Закрытие файла
-    printf("\n");
     fclose(practice_best);
     return 0;
 }
@@ -91,13 +98,11 @@ int practice()
               150,
               practice_done); //получаем строку (уже получаем вторую и так
                               //далее)
-        if (i % 2 == 0) { // если строка с количеством попыток
-            temp = char_to_int(str, '|'); //то запоминаем эти попытки в temp
-            key++; // повышаем количество текстов в файле
-            if (temp < min) { // если temp больше min
-                min = temp;   // присваемваем min temp
-                number_of_text = key; // запоминаем номер необзодимого текста
-            }
+        temp = char_to_int(str, '|'); //то запоминаем эти попытки в temp
+        key++; // повышаем количество текстов в файле
+        if (temp < min) { // если temp больше min
+            min = temp;   // присваемваем min temp
+            number_of_text = key; // запоминаем номер необзодимого текста
         }
     }
 
@@ -123,7 +128,7 @@ int practice_done(
     }
     fpos_t pos;
     str = malloc(152 * sizeof(char));
-    for (int i = 0; i < num; i++) {
+    for (int i = 0; i < num - 1; i++) {
         fgets(str, 150, out);
     }
     fgetpos(out, &pos);
@@ -150,6 +155,5 @@ int practice_done(
                 errors_prcnt);
     }
     fclose(out);
-    printf("Writing complete!\n");
     return att_num;
 }

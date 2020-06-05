@@ -9,7 +9,6 @@
 #include <wchar.h>
 
 #define MAX_SYMBOL_COUNT 1024
-#define PRACTICE_COUNT 30
 
 static struct termios stored_settings;
 
