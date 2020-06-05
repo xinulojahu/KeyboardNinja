@@ -1,3 +1,4 @@
-*.o
-keyboardninja
-gnuplot_*
+builder/src/*.o
+builder/test/*.o
+bin/keyboardninja
+bin/tests
