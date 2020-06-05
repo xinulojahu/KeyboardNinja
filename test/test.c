@@ -6,20 +6,6 @@
 #include "wchar.h"
 #include <stdio.h>
 
-CTEST(language, openfile_correct)
-{
-    int expected = 0;
-    FILE* test = openfile("texts.txt", "r");
-    int result;
-    if (test == NULL) {
-        result = -1;
-    } else {
-        fclose(test);
-        result = 0;
-    }
-    ASSERT_EQUAL(expected, result);
-}
-
 CTEST(language, openfile_incorrect)
 {
     int expected = -1;
