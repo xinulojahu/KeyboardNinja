@@ -26,12 +26,7 @@ int practice_print(int num)
     int count = 1; //Счетчик итераций цикла
 
     FILE* practice_best; //Переменная с указателем на поток данных
-    char language[3];
-    get_language(language);
-    char* path = malloc(32 * sizeof(char)); //массив для пути
-    sprintf(path, "%s/practice_done.txt", language); //создает текстовый путь
-    practice_best = fopen(path, "r"); // открываем файл
-    free(path); //особождаем массив для пути
+    practice_best = openfile("practice_done.txt", "r");
     if (practice_best == NULL) { // проверка на открытие файла
         printf("Error with opening file");
         return -1;
@@ -71,7 +66,6 @@ int practice_print(int num)
 
 int practice()
 {
-    FILE* practice_done;
     char* str; // указатель на массив строк из файла
     int min;   // минимальное количество попыток
     int start_min; // используется для финальной проверки
@@ -79,12 +73,8 @@ int practice()
     int key = 1; // переменная для запоминания номера текста
     int number_of_text = 0; // переменная, в которой хранится
                             // необходимый номер текста
-    char language[3];
-    get_language(language);
-    char* path = malloc(32 * sizeof(char)); //массив для пути
-    sprintf(path, "%s/practice_done.txt", language); //создает текстовый путь
-    practice_done = fopen(path, "r"); // открываем файл
-    free(path); //особождаем массив для пути
+    FILE* practice_done; //Переменная с указателем на поток данных
+    practice_done = openfile("practice_done.txt", "r");
     if (practice_done == NULL) { // проверка на открытие файла
         printf("Error with opening file");
         return -1;
@@ -116,19 +106,26 @@ int practice()
     }
     fclose(practice_done); // закрываем файл
     free(str);
-
     return number_of_text; // возвращаем номер текста
 }
 
-void practice_done(
-        int seconds, int sym_per_min, int errors, double errors_prcnt)
+int practice_done(
+        int num, int seconds, int sym_per_min, int errors, double errors_prcnt)
 {
     char* str;
     int temp;
     int att_num;
-    FILE* out = fopen("RU/practice_done.txt", "r+t");
+    FILE* out; //Переменная с указателем на поток данных
+    out = openfile("practice_done.txt", "r+");
+    if (out == NULL) { // проверка на открытие файла
+        printf("Error with opening file");
+        return -1;
+    }
     fpos_t pos;
     str = malloc(152 * sizeof(char));
+    for (int i = 0; i < num; i++) {
+        fgets(str, 150, out);
+    }
     fgetpos(out, &pos);
     fgets(str, 150, out);
     char* cur = str;
@@ -139,8 +136,8 @@ void practice_done(
         cur++;
     }
     temp = char_to_int(cur, '|');
+    att_num = char_to_int(str, '|');
     if (temp < sym_per_min) {
-        att_num = char_to_int(str, '|');
         att_num++;
         fsetpos(out, &pos);
         fprintf(out,
@@ -154,4 +151,5 @@ void practice_done(
     }
     fclose(out);
     printf("Writing complete!\n");
+    return att_num;
 }

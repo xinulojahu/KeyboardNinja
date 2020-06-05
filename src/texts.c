@@ -1,4 +1,5 @@
 #include "language.h"
+#include "practice.h"
 #include "stats.h"
 #include <locale.h>
 #include <stdio.h>
@@ -44,18 +45,14 @@ int texts_end(wchar_t* str)
 }
 int texts_get_count()
 {
-    FILE* texts_file;
     wchar_t* str;
+
     int texts_count = 0;
-    char language[3];
-    get_language(language);
-    char* path = malloc(32 * sizeof(char));
-    sprintf(path, "%s/texts.txt", language);
-    texts_file = fopen(path, "r");
-    free(path);
+    FILE* texts_file = openfile("texts.txt", "r");
     if (texts_file == NULL) {
         return -1;
     }
+
     str = malloc(MAX_SYMBOL_COUNT * sizeof(wchar_t));
     if (str == NULL) {
         return -1;
@@ -65,20 +62,19 @@ int texts_get_count()
             texts_count++;
         }
     }
+    free(str);
     return texts_count;
 }
 
 wchar_t** texts_get(unsigned int text_src)
 {
     //Инициализация переменных
-    FILE* texts_file; //Для работы с файлом
-    wchar_t* str;     //Для считывания строк
-    int text_number;  //Номер текста
+    wchar_t* str;    //Для считывания строк
+    int text_number; //Номер текста
     fpos_t pos; //Для того, чтобы запомнить позицию в файле
     int newline_count; //Количество переходов на новую строку
     wchar_t** text_out; //Хранит текст под номером text_number
-    char language[3];
-    get_language(language);
+    FILE* texts_file;
     str = malloc(
             MAX_SYMBOL_COUNT
             * sizeof(wchar_t)); //выделение памяти для хранения строк
@@ -87,11 +83,8 @@ wchar_t** texts_get(unsigned int text_src)
     }
 
     if (text_src == 0) {
-        char* path = malloc(32 * sizeof(char));
-        sprintf(path, "%s/texts.txt", language);
-        texts_file = fopen(path, "r");
-        free(path);
-        if (texts_file == NULL) { //Проверка, открылся ли файл
+        texts_file = openfile("texts.txt", "r");
+        if (texts_file == NULL) {
             return NULL;
         }
         srand(time(NULL));                        //Случайный сид
@@ -105,10 +98,13 @@ wchar_t** texts_get(unsigned int text_src)
             }
         }
     } else if (text_src < PRACTICE_COUNT) {
-        char* path = malloc(32 * sizeof(char));
-        sprintf(path, "%s/practice/practice_%d.txt", language, text_src);
-        texts_file = fopen(path, "r");
-        free(path);
+        char* file_name = malloc(32 * sizeof(char));
+        sprintf(file_name, "practice/practice_%d.txt", text_src);
+        texts_file = openfile(file_name, "r");
+        free(file_name);
+        if (texts_file == NULL) {
+            return NULL;
+        }
         if (texts_file == NULL) { //Проверка, открылся ли файл
             return NULL;
         }
@@ -155,7 +151,7 @@ void texts_print(wchar_t** text)
     printf("\n");
 }
 
-void texts_read(wchar_t** text, unsigned int text_src)
+int texts_read(wchar_t** text, unsigned int text_src)
 {
     wchar_t c;
     int errors = 0;
@@ -179,18 +175,27 @@ void texts_read(wchar_t** text, unsigned int text_src)
     seconds = time(NULL) - seconds;
     double errors_prcnt = 100 - errors * 100 / sym_count;
     int sym_per_min = 0;
+    int num;
     if (seconds > 0) {
         sym_per_min = sym_count * 60 / seconds;
     }
-    printf("%5d|%02d:%02d|%5d|%5d|%4.1f%%\n",
-           1,
+    printf("\nRSLTS ATT| TIME| SPM|ERR|ERRATE\nBEST: ");
+    if (text_src == 0) {
+        stats(1);
+        num = stats_fprint(seconds, sym_per_min, errors, errors_prcnt);
+    } else if (text_src < PRACTICE_COUNT) {
+        practice_print(text_src);
+        num = practice_done(
+                text_src, seconds, sym_per_min, errors, errors_prcnt);
+    } else {
+        return -1;
+    }
+    printf("CUR:  %03d|%02d:%02d|%04d|%03d|%05.1f%%\n",
+           num,
            seconds / 60,
            seconds % 60,
            sym_per_min,
            errors,
            errors_prcnt);
-    if (text_src == 0) {
-        stats_fprint(seconds, sym_per_min, errors, errors_prcnt);
-    }
+    return 0;
 }
-

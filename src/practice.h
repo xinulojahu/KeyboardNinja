@@ -7,6 +7,6 @@ int practice();
 
 int practice_print(int num);
 
-void practice_done(
-        int seconds, int sym_per_min, int errors, double errors_prcnt);
+int practice_done(
+        int num, int seconds, int sym_per_min, int errors, double errors_prcnt);
 #endif
