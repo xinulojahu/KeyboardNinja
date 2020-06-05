@@ -30,13 +30,11 @@ void stats_delete()
         remove(path);
         free(path);
         printf("Статистика была удалена\n");
-    }
-    else if ((strcmp(str, "n\n") == 0) || (strcmp(str, "no\n") == 0)) {
+    } else if ((strcmp(str, "n\n") == 0) || (strcmp(str, "no\n") == 0)) {
         printf("Вы отменили удаление статистики\n");
-    }
-    else {
+    } else {
         printf("Некорректный ввод!\n");
-   }
+    }
 }
 
 int stats_fprint(

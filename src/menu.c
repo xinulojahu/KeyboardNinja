@@ -62,7 +62,7 @@ void menu(void)
     char language[3];
     get_language(language);
     char str[100];      //Входной поток данных
-    char choice = 0;    //Переменная для свича
+    char choice = 'l';  //Переменная для свича
     char sep[10] = " "; //Значение передаваемое в strtok
     char* istr;         //Тот же же strtok
     char* istr1;        //Все еще strtok
@@ -102,7 +102,7 @@ void menu(void)
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "practice_best") == 0) {
-            choice = '3';  //Для свичкейса
+            choice = '3'; //Для свичкейса
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "language") == 0) {
@@ -120,7 +120,7 @@ void menu(void)
                 } else {
                     arg = 0; //Это тоже оно
                 }
-            }          
+            }
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "stats") == 0) {
@@ -133,16 +133,16 @@ void menu(void)
                     printf("Неверный аргумент!\n");
                 }
             }
-            choice = '5';  //Свичкейс
+            choice = '5'; //Свичкейс
             //Сравнение содержимого строки с командой
         } else if (strcmp(istr1, "stats_export") == 0) {
-            choice = '6';  //Я усталб((9(
+            choice = '6'; //Я усталб((9(
             //Сравнение содержимого строки с командой
         } else if (strcmp(istr1, "stats_delete") == 0) {
-            choice = '7';  //Свичкейс
+            choice = '7'; //Свичкейс
             //Сравнение содержимого строки с командой
         } else if (strcmp(istr1, "quit") == 0) {
-            choice = '8';  //Свичкейс
+            choice = '8'; //Свичкейс
             //Если введенной команды не сущесвтует
         } else {
             printf("Некорректный ввод!\n");
@@ -190,6 +190,7 @@ void menu(void)
             }
         } else {
             printf("Попробуйте снова!\n");
+            break;
         }
     } while (choice != '1' && choice != '2' && choice != '3' && choice != '4'
              && choice != '5' && choice != '6' && choice != '7');
