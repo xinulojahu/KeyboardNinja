@@ -57,6 +57,7 @@ int isnumber(char* buf)
 
 void menu(void)
 {
+    practice_check();
     char str[100];      //Входной поток данных
     char choice;        //Переменная для свича
     char sep[10] = " "; //Значение передаваемое в strtok
@@ -87,7 +88,6 @@ void menu(void)
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "practice") == 0) {
-            practice_check();
             arg = practice();
             if ((istr != NULL) && (isnumber(istr) == 0)) {
                 argtest = atoi(istr); //Вспомогательная переменная для аргумента
@@ -166,8 +166,11 @@ void menu(void)
                 texts_read(text, text_num);
                 break;
             case '3':
-                // practice_best();
-                printf("c\n");
+                printf("NUM: ATT| TIME| SPM|ERR|ERRATE\n");
+                for (int i = 1; i <= PRACTICE_COUNT; i++) {
+                    printf("%2d : ", i);
+                    practice_print(i);
+                }
                 break;
             case '4':
                 // language();
