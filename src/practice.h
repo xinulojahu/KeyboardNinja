@@ -1,7 +1,7 @@
 #ifndef PRACTICE_H
 #define PRACTICE_H
 
-#define PRACTICE_COUNT 30
+#define PRACTICE_COUNT 10
 
 void practice_check();
 
