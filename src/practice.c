@@ -119,3 +119,39 @@ int practice()
 
     return number_of_text; // возвращаем номер текста
 }
+
+void practice_done(
+        int seconds, int sym_per_min, int errors, double errors_prcnt)
+{
+    char* str;
+    int temp;
+    int att_num;
+    FILE* out = fopen("RU/practice_done.txt", "r+t");
+    fpos_t pos;
+    str = malloc(152 * sizeof(char));
+    fgetpos(out, &pos);
+    fgets(str, 150, out);
+    char* cur = str;
+    for (int i = 0; i < 2; i++) {
+        while (*cur != '|') {
+            cur++;
+        }
+        cur++;
+    }
+    temp = char_to_int(cur, '|');
+    if (temp < sym_per_min) {
+        att_num = char_to_int(str, '|');
+        att_num++;
+        fsetpos(out, &pos);
+        fprintf(out,
+                "%03d|%02d:%02d|%04d|%03d|%05.1f%%\n",
+                att_num,
+                seconds / 60,
+                seconds % 60,
+                sym_per_min,
+                errors,
+                errors_prcnt);
+    }
+    fclose(out);
+    printf("Writing complete!\n");
+}
