@@ -75,7 +75,6 @@ void menu(void)
         strncpy(istr2, str, 20); //Копируем содержимое str в str2
         istr1 = strtok(istr2, sep); //Вычленяем комманду из строки
 
-        printf("Ваш выбор: %s\n", istr1); //Вспомогательная строка
         istr = strtok(str, sep); //Выделение первой части строки
 
         //Цикл для выделения следующей части (аргумента)
@@ -182,7 +181,6 @@ void menu(void)
                 break;
             case '7':
                 stats_delete();
-                printf("Данные были удалены\n");
                 break;
             case '8':
                 exit(0);
