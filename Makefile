@@ -2,26 +2,49 @@
 CC=gcc
 
 # флаги
-CFLAGS=-c -Wall -Werror -g3 
+CFLAGS=-c -Wall -Werror 
+TFLAGS=-I thirdparty -I src
+# путь до объектных файлов
+OBJDIR=builder/
+# путь до исходников
+SRCDIR=src/
+# путь до тестов
+TSTDIR=test/
 
 # общие файлы
-FILES=main.c menu.c practice.c stats.c texts.c
+FILES=menu.c language.c practice.c stats.c texts.c
+# одинаковые наименования
+SMFLS=main.c
+# только в тестах
+TTFLS=test.c
 
-OBJ=$(patsubst %.c, %.o, $(FILES))
+# объектные файлы приложения
+OBJ=$(patsubst %.c, $(OBJDIR)$(SRCDIR)%.o, $(FILES) $(SMFLS))
 # объектные файлы тестов
+TTOBJ=$(patsubst %.c, $(OBJDIR)$(TSTDIR)%.o, $(FILES) $(SMFLS) $(TTFLS))
 
 # выходной файл
-EXECUTABLE=keyboardninja
+EXECUTABLE=bin/keyboardninja
+TTEXE=bin/tests
 
 .PHONY: clean
 
-all: $(EXECUTABLE)
+all: $(EXECUTABLE) $(TTEXE)
  
 $(EXECUTABLE): $(OBJ)
 	$(CC) -o $@ $^
 
-%.o: %.c
+$(OBJDIR)$(SRCDIR)%.o: $(SRCDIR)%.c
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(TTEXE): $(TTOBJ)
+	$(CC) -o $@ $^
+
+$(OBJDIR)$(TSTDIR)%.o: $(TSTDIR)%.c
+	$(CC) $(CFLAGS) -o $@ $^ $(TFLAGS)
+
+$(OBJDIR)$(TSTDIR)%.o: $(SRCDIR)%.c
 	$(CC) $(CFLAGS) -o $@ $^
 
 clean: 
-	$(RM) $(OBJ) $(EXECUTABLE)
+	$(RM) $(OBJ) $(TTOBJ) $(EXECUTABLE) $(TTEXE)

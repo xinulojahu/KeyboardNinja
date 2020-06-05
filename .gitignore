@@ -1,2 +1,8 @@
-*.o
-keyboardninja
+builder/src/*.o
+builder/test/*.o
+bin/keyboardninja
+bin/tests
+bin/RU/results.txt
+bin/EN/results.txt
+bin/*/practice_done.txt
+bin/gnuplot_*.txt

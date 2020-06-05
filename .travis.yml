@@ -1,0 +1,8 @@
+language: c
+
+dist: xenial
+
+script:
+  - git ls-files src/ | xargs clang-format -i && git diff --exit-code
+  - make
+  - ./bin/tests
