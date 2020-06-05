@@ -1,3 +1,4 @@
+#include "language.h"
 #include "practice.h"
 #include "stats.h"
 #include "texts.h"
@@ -58,8 +59,10 @@ int isnumber(char* buf)
 void menu(void)
 {
     practice_check();
+    char language[3];
+    get_language(language);
     char str[100];      //Входной поток данных
-    char choice;        //Переменная для свича
+    char choice = 0;    //Переменная для свича
     char sep[10] = " "; //Значение передаваемое в strtok
     char* istr;         //Тот же же strtok
     char* istr1;        //Все еще strtok
@@ -113,9 +116,13 @@ void menu(void)
             //Сравнение строки с аргументами
             if (istr != NULL) {
                 if (strcmp(istr, "EN") == 0) {
-                    arg = 1; //Присвоение
+                    if (strcmp(istr, language) != 0) {
+                        arg = 1;
+                    }
                 } else if (strcmp(istr, "RU") == 0) {
-                    arg = 2; //Аргумента
+                    if (strcmp(istr, language) != 0) {
+                        arg = 1;
+                    }
                 } else {
                     arg = 0; //Это тоже оно
                 }
@@ -125,6 +132,7 @@ void menu(void)
         }
         //Сравнение содержимого строки с командой
         else if (strcmp(istr1, "stats") == 0) {
+            arg = 9; //Дефолтное значение аргумента из ТЗ
             if ((istr != NULL) && (isnumber(istr) == 0)) {
                 argtest = atoi(istr); //Перевод аргумента из строки в int
                 if ((argtest >= 1) && (argtest <= 100)) {
@@ -132,7 +140,6 @@ void menu(void)
                     printf("Argument it's; %d\n", arg); //Вспомогательная строка
                 } else {
                     printf("Invalid argument!\n");
-                    arg = 9; //Дефолтное значение аргумента из ТЗ
                 }
             }
             choice = '5';  //Свичкейс
@@ -164,6 +171,7 @@ void menu(void)
                 text = texts_get(text_num);
                 texts_print(text);
                 texts_read(text, text_num);
+                texts_free(text);
                 break;
             case '3':
                 printf("NUM: ATT| TIME| SPM|ERR|ERRATE\n");
@@ -173,20 +181,20 @@ void menu(void)
                 }
                 break;
             case '4':
-                // language();
-                printf("d\n");
+                if (arg == 1) {
+                    change_language(language);
+                }
+                printf("Current language: %s\n", language);
                 break;
             case '5':
-                // stats();
-                printf("f\n");
+                stats(arg + 1);
                 break;
             case '6':
                 stats_export();
-                printf("Данные были экспортированы\n");
                 break;
             case '7':
-                // stats_del();
-                printf("h\n");
+                stats_delete();
+                printf("Данные были удалены\n");
                 break;
             case '8':
                 exit(0);
@@ -199,4 +207,6 @@ void menu(void)
         }
     } while (choice != '1' && choice != '2' && choice != '3' && choice != '4'
              && choice != '5' && choice != '6' && choice != '7');
+    printf("\nPress Enter to coninue\n");
+    getchar();
 }

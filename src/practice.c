@@ -154,6 +154,7 @@ int practice_done(
                 errors,
                 errors_prcnt);
     }
+    free(str);
     fclose(out);
     return att_num;
 }

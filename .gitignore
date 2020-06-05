@@ -5,3 +5,4 @@ bin/tests
 bin/RU/results.txt
 bin/EN/results.txt
 bin/*/practice_done.txt
+bin/gnuplot_*.txt

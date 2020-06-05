@@ -1,8 +1,9 @@
 #include "menu.h"
-#include <locale.h>
 
 int main()
 {
-    menu_display();
-    menu();
+    while (1) {
+        menu_display();
+        menu();
+    }
 }

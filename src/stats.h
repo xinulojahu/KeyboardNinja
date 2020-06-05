@@ -1,6 +1,8 @@
 #ifndef STATS_H
 #define STATS_H
 
+void stats_delete();
+
 int stats(int num);
 
 int stats_fprint(

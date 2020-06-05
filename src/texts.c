@@ -70,8 +70,8 @@ wchar_t** texts_get(unsigned int text_src)
     //Инициализация переменных
     wchar_t* str;    //Для считывания строк
     int text_number; //Номер текста
-    fpos_t pos; //Для того, чтобы запомнить позицию в файле
     int newline_count; //Количество переходов на новую строку
+    fpos_t pos; //Для того, чтобы запомнить позицию в файле
     wchar_t** text_out; //Хранит текст под номером text_number
     FILE* texts_file;
     str = malloc(
@@ -197,4 +197,14 @@ int texts_read(wchar_t** text, unsigned int text_src)
            errors,
            errors_prcnt);
     return 0;
+}
+
+void texts_free(wchar_t** text)
+{
+    int i;
+    for (i = 0; !texts_end(text[i]); i++) {
+        free(text[i]);
+    }
+    free(text[i]);
+    free(text);
 }

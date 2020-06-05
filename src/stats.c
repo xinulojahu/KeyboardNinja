@@ -14,6 +14,18 @@
             errors,                                \
             errors_prcnt);
 
+void stats_delete()
+{
+    char* path = malloc(32 * sizeof(char));
+    char language[3];
+    get_language(language);
+    sprintf(path, "%s/results.txt", language);
+    remove(path);
+    sprintf(path, "%s/practice_done.txt", language);
+    remove(path);
+    free(path);
+}
+
 int stats_fprint(
         int seconds, int sym_per_minuts, int errors, double errors_prcnt)
 {
@@ -114,6 +126,7 @@ int stats_export()
     fclose(ploterror);
     fclose(plotspm);
     fclose(stats_file);
+    printf("Данные были экспортированы\n");
     free(str);
     return 0;
 }
