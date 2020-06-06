@@ -10,10 +10,14 @@ FILE* openfile(char* filetxt, char* flag)
     FILE* file_ret;
     char language[3];
     get_language(language);
-    char* path = malloc(32 * sizeof(char));
+    char* path = malloc(64 * sizeof(char));
     sprintf(path, "%s/%s", language, filetxt);
     file_ret = fopen(path, flag);
     free(path);
+    if (file_ret == NULL) {
+        printf("Запустите файл из директории bin\n");
+        exit(-1);
+    }
     return file_ret;
 }
 
